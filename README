@@ -1,0 +1,53 @@
+What you'll find here:
+
+
+Subtomov creates a video containing just subtitles in a .mkv source. 
+The video has to be composited with the source movie in an editor so the
+subtitles appear on the bottom out of frame.
+
+The journey begins by extracting an .idx & .sub file from a .mkv source.
+
+Use the mkvinfo & mkvextract programs inside MKVToolNix_GUI to extract
+the .idx & .sub.
+
+https://mkvtoolnix.download/
+
+cd mkvtoolnix/usr/bin; LD_LIBRARY_PATH=../lib ./mkvinfo <input file>
+
+This gives a bunch of Track type: subtitles.  Most have a Language:
+field but some don't.  They also have a "track ID for mkvmerge &
+mkvextract:" which is different than the track id for some reason.
+
+You have to run mkvextract with the right track id for mkvextract.
+
+LD_LIBRARY_PATH=../lib ./mkvextract tracks <input file> <track id>:subtitles
+
+This puts the time stamps & color palette for the subtitles in a
+subtitles.idx file & the compressed subtitle images in a subtitles.sub
+file.
+
+The next step is to run subtomov to generate the rendered subtitle movie.
+
+subtomov <input base path> <output path>
+
+The input base path is the subtitles value passed to mkvextract.  It
+adds the .idx & .sub on its own.  The output path is the movie.  This
+runs ffmpeg to encode the movie.
+
+In your video editor, place the subtitle video below the movie.  While
+the .sub file contains an X & Y position for each subtitle, subtomov
+draws them all on top of its output so the subtitles can go below the
+movie.
+
+Change the ON_TOP macro to preserve the encoded X & Y of the subtitles.
+Change the CHROMA_ macros to fill the transparent area with a chroma key
+color & overlap the movie, but it's most ergonomical to not overlap the
+movie with the subtitles.
+
+
+
+
+
+
+
+
