@@ -1,7 +1,7 @@
 What you'll find here:
 
 
-Subtomov creates a video containing just subtitles in a .mkv source. 
+Subtomov creates a video containing just subtitles from a .mkv source. 
 The video has to be composited with the source movie in an editor so the
 subtitles appear on the bottom out of frame.
 
